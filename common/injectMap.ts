@@ -1,12 +1,14 @@
-export class InstanceMap {
-  private readonly instanceMap: Map<string, any> = new Map();
+import { CommonObj } from '../typings';
 
-  public setInstance(key: string, value: any): void {
+// 记录依赖实例，避免多次实例化
+export class InstanceMap {
+  private readonly instanceMap: Map<string, CommonObj> = new Map();
+
+  public setInstance(key: string, value: CommonObj): void {
     if (!this.instanceMap.has(key)) this.instanceMap.set(key, value);
   }
-  public getInstance(key: string): any {
+  public getInstance(key: string): CommonObj {
     if (this.instanceMap.has(key)) return this.instanceMap.get(key);
-    return null;
   }
 }
 

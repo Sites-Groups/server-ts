@@ -1,11 +1,14 @@
-import Koa from "koa";
-import { registerRoute } from "./common/util";
-import "reflect-metadata";
-
-// router
+import Koa from 'koa';
+import {
+  registerRoute,
+  registerBasicPlugin as usePlugin,
+  connectDb as startServer,
+} from './common';
+import 'reflect-metadata';
 
 const app = new Koa();
 
 registerRoute(app, { dir: __dirname });
+usePlugin(app, { dir: __dirname });
 
-app.listen(3000);
+startServer(app);
