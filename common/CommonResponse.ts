@@ -5,7 +5,7 @@ export class CommonResponse<T> {
   private success: boolean;
   private errorMessage: string = null;
   private errorCode: string = null;
-  private errroStack: CommonObj = {};
+  private errorStack: CommonObj = null;
 
   public setData(data: T): void {
     this.data = data;
@@ -23,8 +23,8 @@ export class CommonResponse<T> {
     this.errorCode = errorCode;
   }
 
-  public setErrorStack(errroStack: CommonObj): void {
-    this.errroStack = errroStack;
+  public setErrorStack(errorStack: CommonObj): void {
+    this.errorStack = errorStack;
   }
 
   static success(data: unknown): CommonResponse<unknown> {
@@ -34,10 +34,11 @@ export class CommonResponse<T> {
     return instance;
   }
 
-  static error(error: Error): CommonResponse<unknown> {
+  static error(error: CommonObj): CommonResponse<unknown> {
     const instance = new CommonResponse();
     instance.setErrorMessage(error?.message);
-    instance.setErrorStack(error);
+    instance.setErrorCode(error?.errorCode);
+    instance.setErrorStack(error?.errorStack);
     instance.setSuccess(false);
     return instance;
   }

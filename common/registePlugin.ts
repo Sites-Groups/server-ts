@@ -1,5 +1,5 @@
 import Application from 'koa';
-import BodyParser from 'koa-bodyparser';
+import BodyParser from 'koa-body';
 import Json from 'koa-json';
 
 function getEnv(): string {
@@ -11,8 +11,7 @@ export function registerBasicPlugin(app: Application, config?: { dir: string }):
   app.env = getEnv();
   const { dir } = config || {};
   const plugins = [
-    new BodyParser({
-      enableTypes: ['json', 'form', 'text'],
+    BodyParser({
       jsonLimit: '9mb',
       formLimit: '9mb',
       textLimit: '9mb',

@@ -1,10 +1,8 @@
 import { Context } from 'koa';
 
-type CommonObj =
-  | {
-      [x?: string]: any;
-    }
-  | any[];
+type CommonObj = {
+  [x?: string]: any;
+};
 
 interface CommonCtx extends Context {
   request: {

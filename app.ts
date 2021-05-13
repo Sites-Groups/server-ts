@@ -1,3 +1,4 @@
+import 'tsconfig-paths/register';
 import Koa from 'koa';
 import {
   registerRoute,
@@ -5,10 +6,16 @@ import {
   connectDb as startServer,
 } from './common';
 import 'reflect-metadata';
+// import tsConfig from './tsconfig.json';
 
+// When path registration is no longer needed
 const app = new Koa();
 
-registerRoute(app, { dir: __dirname });
+// register pligun
 usePlugin(app, { dir: __dirname });
 
+// register router
+registerRoute(app, { dir: __dirname });
+
+// start server, connect database
 startServer(app);

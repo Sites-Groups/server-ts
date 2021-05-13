@@ -1,8 +1,9 @@
-// import { UserDTO } from '../../dto/user/User';
-import { CommonObj } from '../../typings';
+import { User } from '@/entity/User/interface';
+import { CommonObj } from '@/typings';
 
 export default interface UserServiceImpl {
-  queryByUserId: (userId: string) => unknown;
-  queryUserByName: (name: string) => unknown;
-  insertUser: (user: CommonObj) => unknown;
+  queryByUserId: (userId: string) => Promise<User>;
+  queryUserByName: (name: string) => Promise<User>;
+  insertUser: (user: User) => Promise<User>;
+  queryMyBasicInfo: (userId: string) => Promise<CommonObj>;
 }

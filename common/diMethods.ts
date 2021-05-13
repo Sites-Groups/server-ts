@@ -1,4 +1,11 @@
-import { instanceMap, PARAM_META_KEY, QUERY_META_KEY, QUERY_ITEM_META_KEY, BODY_META_KEY } from '.';
+import {
+  instanceMap,
+  PARAM_META_KEY,
+  QUERY_META_KEY,
+  QUERY_ITEM_META_KEY,
+  BODY_META_KEY,
+  TOKEN_META_KEY_PREFIX,
+} from '.';
 
 type DecratorReturn = (target: unknown, propertyName: string, index?: number) => void;
 
@@ -39,7 +46,9 @@ export function GetMapping(url: string): (target: unknown, propertyName: string)
  * post
  * @param url string
  */
-export function PostMapping(url: string): (target: unknown, propertyName: string) => void {
+export function PostMapping(
+  url: string,
+): (target: unknown, propertyName: string) => void {
   return Controller({ method: 'POST', url });
 }
 
@@ -68,7 +77,11 @@ export function queryObj(): DecratorReturn {
  */
 export function queryItem(queryItemName: string): DecratorReturn {
   return (target: unknown, propertyName: string, index?: number) => {
-    Reflect.defineMetadata(QUERY_ITEM_META_KEY, { queryItemName, index }, target[propertyName]);
+    Reflect.defineMetadata(
+      QUERY_ITEM_META_KEY,
+      { queryItemName, index },
+      target[propertyName],
+    );
   };
 }
 
@@ -78,5 +91,26 @@ export function queryItem(queryItemName: string): DecratorReturn {
 export function request() {
   return (target: unknown, propertyName: string, index?: number): void => {
     Reflect.defineMetadata(BODY_META_KEY, index, target[propertyName]);
+  };
+}
+
+/**
+ * token注入，接口验证
+ */
+export interface Validate {
+  // 验证是否是管理员
+  needAdmin?: boolean;
+  // 验证是否是超级管理员
+  needSuperAdmin?: boolean;
+}
+export function TokenValidate(
+  validate: Validate = {},
+): (target: unknown, propertyName: string) => void {
+  return (target: unknown, propertyName: string) => {
+    Reflect.defineMetadata(
+      `${TOKEN_META_KEY_PREFIX}${propertyName}`,
+      validate,
+      target[propertyName],
+    );
   };
 }
