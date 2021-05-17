@@ -9,3 +9,5 @@ interface CommonCtx extends Context {
     body: CommonObj;
   };
 }
+
+type SiteType = 'technology' | 'life' | 'info' | 'others';
